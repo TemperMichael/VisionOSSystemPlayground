@@ -1,0 +1,98 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 1.0 (409.60.6)"
+    }
+    defaultPrim = "ShiftableMaterial"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Material "ShiftableMaterial"
+{
+    color4f inputs:EndColor = (0, 0, 0, 1) (
+        colorSpace = "lin_srgb"
+        customData = {
+            dictionary realitykit = {
+                float2 positionInSubgraph = (-623.28815, -57.146343)
+                int stackingOrderInSubgraph = 100
+            }
+        }
+    )
+    float inputs:ShiftValue = 0 (
+        customData = {
+            dictionary realitykit = {
+                float2 positionInSubgraph = (-403.0786, -224.26172)
+                float2 sizeInSubgraph = (131.5, 53)
+                int stackingOrderInSubgraph = 84
+            }
+        }
+    )
+    color4f inputs:StartColor = (1, 1, 1, 1) (
+        colorSpace = "srgb_displayp3"
+        customData = {
+            dictionary realitykit = {
+                float2 positionInSubgraph = (-632.21545, 31.199865)
+                int stackingOrderInSubgraph = 101
+            }
+        }
+    )
+    token outputs:mtlx:surface.connect = </ShiftableMaterial/PreviewSurface.outputs:out>
+    token outputs:realitykit:vertex
+    float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (387.79172, -5.748523)
+    float2 ui:nodegraph:realitykit:subgraphOutputs:size = (181.5, 99)
+    int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 71
+
+    def Shader "PreviewSurface"
+    {
+        uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+        color3f inputs:diffuseColor = (0, 0, 0) (
+            colorSpace = "srgb_texture"
+        )
+        color3f inputs:diffuseColor.connect = </ShiftableMaterial/Mix.outputs:out>
+        color3f inputs:emissiveColor = (0, 0, 0) (
+            colorSpace = "srgb_texture"
+        )
+        float inputs:metallic
+        float inputs:occlusion
+        float inputs:opacityThreshold
+        float inputs:roughness = 0.75
+        token outputs:out
+        float2 ui:nodegraph:node:pos = (61.831562, 22.901)
+        float2 ui:nodegraph:node:size = (159.5, 307)
+        int ui:nodegraph:node:stackingOrder = 73
+        string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:diffuseColor", "Advanced", "inputs:diffuseColor"]
+    }
+
+    def Shader "Mix"
+    {
+        uniform token info:id = "ND_mix_color3"
+        color3f inputs:bg.connect = </ShiftableMaterial/Convert_1.outputs:out>
+        color3f inputs:fg.connect = </ShiftableMaterial/Convert.outputs:out>
+        float inputs:mix = 0
+        float inputs:mix.connect = </ShiftableMaterial.inputs:ShiftValue>
+        color3f outputs:out
+        float2 ui:nodegraph:node:pos = (-229.42056, -20.800505)
+        float2 ui:nodegraph:node:size = (109, 145)
+        int ui:nodegraph:node:stackingOrder = 82
+    }
+
+    def Shader "Convert"
+    {
+        uniform token info:id = "ND_convert_color4_color3"
+        color4f inputs:in.connect = </ShiftableMaterial.inputs:EndColor>
+        color3f outputs:out
+        float2 ui:nodegraph:node:pos = (-460.0721, -57.52491)
+        int ui:nodegraph:node:stackingOrder = 91
+    }
+
+    def Shader "Convert_1"
+    {
+        uniform token info:id = "ND_convert_color4_color3"
+        color4f inputs:in.connect = </ShiftableMaterial.inputs:StartColor>
+        color3f outputs:out
+        float2 ui:nodegraph:node:pos = (-455.98132, 30.837284)
+        int ui:nodegraph:node:stackingOrder = 99
+    }
+}
+

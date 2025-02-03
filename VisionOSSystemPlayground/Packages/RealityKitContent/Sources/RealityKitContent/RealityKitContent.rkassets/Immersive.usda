@@ -1,0 +1,355 @@
+#usda 1.0
+(
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+reorder rootPrims = ["Root", "GridMaterial"]
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Sphere_ShiftableMaterial", "Transform_HandTracking_Right", "Transform_HandTracking_Left"]
+    def Sphere "Sphere_ShiftableMaterial" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        reorder nameChildren = ["ShiftableMaterial", "DefaultMaterial"]
+        rel material:binding = </Root/Sphere_ShiftableMaterial/ShiftableMaterial> (
+            bindMaterialAs = "weakerThanDescendants"
+        )
+        double radius = 0.1
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def "ShiftableMaterial" (
+            active = true
+            references = @Materials/ShiftableMaterial.usda@
+        )
+        {
+            color4f inputs:EndColor = (0, 0, 0.8, 1) (
+                colorSpace = "lin_srgb"
+            )
+            color4f inputs:StartColor = (0, 0.8, 0, 1) (
+                colorSpace = "srgb_displayp3"
+            )
+        }
+
+        def RealityKitCustomComponent "RealityKitContent_GestureComponent"
+        {
+            uniform token info:id = "RealityKitContent.GestureComponent"
+            bool pivotOnDrag = 0
+            bool preserveOrientationOnPivotDrag = 0
+        }
+
+        def RealityKitCustomComponent "RealityKitContent_LabelComponent"
+        {
+            uniform token info:id = "RealityKitContent.LabelComponent"
+            string text = "Shiftable Material"
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.2, 0.2, 0.2)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                }
+            }
+        }
+
+        def RealityKitCustomComponent "RealityKitContent_ShiftableMaterialComponent"
+        {
+            uniform token info:id = "RealityKitContent.ShiftableMaterialComponent"
+        }
+    }
+
+    def Xform "Transform_HandTracking_Right" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["Hand", "Thumb", "HandMaterial"]
+        float3 xformOp:translate = (-0.5, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cube "Hand" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+            customData = {
+                float3 rotationEulerHint = (0, 1.5707963, 0)
+            }
+        )
+        {
+            reorder nameChildren = ["Thumb", "IndexFinger", "MiddleFinger", "RingFinder", "LittleFinger"]
+            rel material:binding = </Root/Transform_HandTracking_Right/HandMaterial>
+            double size = 0.2
+            quatf xformOp:orient = (0.7071068, 0, 0.70710665, 0)
+            float3 xformOp:scale = (1, 0.2, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Cube "Thumb" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Right/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-107.71187, -33.18036)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.3, 1.5, 0.2)
+                float3 xformOp:translate = (-0.120000005, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "IndexFinger" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Right/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-87.71187, -13.180359)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.3)
+                float3 xformOp:translate = (-0.06999999, 0, -0.12)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "MiddleFinger" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Right/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-67.71187, 6.819641)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.5)
+                float3 xformOp:translate = (-0.01999998, 0, -0.15)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "RingFinder" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Right/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-47.71187, 26.819641)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.4)
+                float3 xformOp:translate = (0.030000001, 0, -0.14)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "LittleFinger" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Right/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-27.711868, 46.81964)
+                int ui:nodegraph:node:stackingOrder = 5
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.2)
+                float3 xformOp:translate = (0.08000001, 0, -0.12)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Material "HandMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Transform_HandTracking_Right/HandMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0, 0.8, 0.8) (
+                    colorSpace = "lin_srgb"
+                )
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+
+        def RealityKitCustomComponent "RealityKitContent_HandTrackingComponent"
+        {
+            uniform token info:id = "RealityKitContent.HandTrackingComponent"
+            bool isActive = 1
+            token presetChirality = "right"
+        }
+    }
+
+    def Xform "Transform_HandTracking_Left" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["Hand", "Thumb", "HandMaterial"]
+        float2 ui:nodegraph:node:pos = (-107.71187, -33.18036)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-1, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cube "Hand" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+            customData = {
+                float3 rotationEulerHint = (0, -1.5707963, 0)
+            }
+        )
+        {
+            reorder nameChildren = ["Thumb", "IndexFinger", "MiddleFinger", "RingFinder", "LittleFinger"]
+            rel material:binding = </Root/Transform_HandTracking_Left/HandMaterial>
+            double size = 0.2
+            quatf xformOp:orient = (0.70710677, 0, -0.7071067, 0)
+            float3 xformOp:scale = (1, 0.2, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Cube "Thumb" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Left/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-107.71187, -33.18036)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.3, 1.5, 0.2)
+                float3 xformOp:translate = (-0.120000005, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "IndexFinger" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Left/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-87.71187, -13.180359)
+                int ui:nodegraph:node:stackingOrder = 2
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.3)
+                float3 xformOp:translate = (-0.06999999, 0, -0.12)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "MiddleFinger" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Left/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-67.71187, 6.819641)
+                int ui:nodegraph:node:stackingOrder = 3
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.5)
+                float3 xformOp:translate = (-0.01999998, 0, -0.15)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "RingFinder" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Left/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-47.71187, 26.819641)
+                int ui:nodegraph:node:stackingOrder = 4
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.4)
+                float3 xformOp:translate = (0.030000001, 0, -0.14)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+
+            def Cube "LittleFinger" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Transform_HandTracking_Left/HandMaterial> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                double size = 0.2
+                float2 ui:nodegraph:node:pos = (-27.711868, 46.81964)
+                int ui:nodegraph:node:stackingOrder = 5
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (0.2, 1, 0.2)
+                float3 xformOp:translate = (0.08000001, 0, -0.12)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Material "HandMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Transform_HandTracking_Left/HandMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0, 0.8, 0.8) (
+                    colorSpace = "lin_srgb"
+                )
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+
+        def RealityKitCustomComponent "RealityKitContent_HandTrackingComponent"
+        {
+            uniform token info:id = "RealityKitContent.HandTrackingComponent"
+            bool isActive = 1
+            token presetChirality = "left"
+        }
+    }
+}
+
