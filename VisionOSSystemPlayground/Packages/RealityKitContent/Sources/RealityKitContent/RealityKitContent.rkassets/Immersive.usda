@@ -64,7 +64,8 @@ def Xform "Root"
             def RealityKitStruct "Shape"
             {
                 float3 extent = (0.2, 0.2, 0.2)
-                token shapeType = "Box"
+                float radius = 0.1
+                token shapeType = "Sphere"
 
                 def RealityKitStruct "pose"
                 {
@@ -211,6 +212,25 @@ def Xform "Root"
             bool isActive = 1
             token presetChirality = "right"
         }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.3, 0.060000002, 0.25000003)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (-0.049999993, 0, 0.024999987)
+                }
+            }
+        }
     }
 
     def Xform "Transform_HandTracking_Left" (
@@ -349,6 +369,25 @@ def Xform "Root"
             uniform token info:id = "RealityKitContent.HandTrackingComponent"
             bool isActive = 1
             token presetChirality = "left"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.29999998, 0.060000002, 0.25)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (0.049999993, 0, -0.025000002)
+                }
+            }
         }
     }
 }
